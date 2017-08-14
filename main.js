@@ -59,13 +59,15 @@ window.onload = function()
 
 	Array.from(directoryLits).forEach(function(btnIcon, index, array) {
 
-	/*	console.log(btnIcon);*/
+		console.log(btnIcon);
 
 		btnIcon.addEventListener("click", window.directoryList.dClickListener);
 
 	});
 
 
+	window.makeHorizontalResizeable('.activity-detail-tray', 190);
+	
 }
 
 
@@ -118,9 +120,3 @@ window.makeHorizontalResizeable = function(eName, minWidth)
 	
 }
 
-
-
-window.onload = function()
-{
-	window.makeHorizontalResizeable('.activity-detail-tray', 190);
-}
