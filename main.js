@@ -90,7 +90,7 @@ window.makeHorizontalResizeable = function(eName, minWidth)
 	resizeabeElement = resizeabeElement[0];
 
 	window.addTemplateFragment('<span class="drag-handler"><span class="handle"></span></span>', resizeabeElement);
-	
+		
 	resizeabeElement.isResizing = false;
 	resizeabeElement.lastDownX = 0;
 
