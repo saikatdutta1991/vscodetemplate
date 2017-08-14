@@ -66,7 +66,7 @@ window.onload = function()
 	});
 
 
-	window.makeHorizontalResizeable('.activity-detail-tray', 190);
+	window.makeHorizontalResizeable('.activity-detail-tray', 170);
 	
 }
 
