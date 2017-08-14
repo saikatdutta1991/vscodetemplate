@@ -229,3 +229,24 @@ padding-left: 5px;
 padding: 5px;       
 }
 
+.drag-handler
+{
+	right: 0px;
+	width: 0px;
+	background: red;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+}
+
+.handle
+{
+	height: 50px;
+    width: 2px;
+    position: absolute;
+    background: red;
+    z-index: 99;
+    right: 0px;
+    top: 50%;
+    cursor: ew-resize;
+}

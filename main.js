@@ -59,11 +59,68 @@ window.onload = function()
 
 	Array.from(directoryLits).forEach(function(btnIcon, index, array) {
 
-		console.log(btnIcon);
+	/*	console.log(btnIcon);*/
 
 		btnIcon.addEventListener("click", window.directoryList.dClickListener);
 
 	});
 
 
+}
+
+
+
+/* resizeabe div */
+
+window.makeHorizontalResizeable = function(eName, minWidth)
+{
+	var resizeabeElement = document.querySelectorAll(eName);
+
+	if(!resizeabeElement.length) return;
+
+	resizeabeElement = resizeabeElement[0];
+
+	resizeabeElement.innerHTML += '<span class="drag-handler"><span class="handle"></span></span>';
+	resizeabeElement.isResizing = false;
+	resizeabeElement.lastDownX = 0;
+
+	var handle = resizeabeElement.querySelectorAll('.drag-handler > .handle')[0];
+
+	handle.addEventListener('mousedown', function(event){
+	    resizeabeElement.isResizing = true;
+	    resizeabeElement.lastDownX = event.clientX;
+	    resizeabeElement.elemMinWidth = minWidth;
+	    resizeabeElement.lastEmentWidth = parseInt(getComputedStyle(resizeabeElement).width)
+	    console.log('mounsedown', resizeabeElement.lastDownX);
+	});
+
+	window.addEventListener('mousemove', function(event){
+		
+		if(!resizeabeElement.isResizing) return;
+
+		var newWidth = resizeabeElement.lastEmentWidth + (event.clientX - resizeabeElement.lastDownX);
+
+		if(resizeabeElement.elemMinWidth > newWidth) return;
+
+		resizeabeElement.style.width =  newWidth+ 'px';
+
+		
+
+	});
+
+
+	window.addEventListener('mouseup', function(event){
+		
+		resizeabeElement.isResizing = false;
+
+	});
+	
+	
+}
+
+
+
+window.onload = function()
+{
+	window.makeHorizontalResizeable('.activity-detail-tray', 190);
 }
