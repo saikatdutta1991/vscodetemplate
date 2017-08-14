@@ -74,6 +74,13 @@ window.onload = function()
 
 /* resizeabe div */
 
+window.addTemplateFragment = function(template = '', appendTo = document.html)
+{
+
+	var frag = document.createRange().createContextualFragment(template);
+	appendTo.appendChild(frag);
+}
+
 window.makeHorizontalResizeable = function(eName, minWidth)
 {
 	var resizeabeElement = document.querySelectorAll(eName);
@@ -82,7 +89,8 @@ window.makeHorizontalResizeable = function(eName, minWidth)
 
 	resizeabeElement = resizeabeElement[0];
 
-	resizeabeElement.innerHTML += '<span class="drag-handler"><span class="handle"></span></span>';
+	window.addTemplateFragment('<span class="drag-handler"><span class="handle"></span></span>', resizeabeElement);
+	
 	resizeabeElement.isResizing = false;
 	resizeabeElement.lastDownX = 0;
 
