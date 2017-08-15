@@ -39,7 +39,7 @@ window.classie.removeClass = function(element, className)
 window.directoryList = {};
 window.directoryList.dClickListener = function(event) 
 {
-	var directory = event.target.parentElement.parentElement;
+	var directory = event.target.parentElement;
 	console.log(directory);
 
 	if(window.classie.hasClass(directory, 'directory-open')) {
@@ -55,7 +55,7 @@ window.directoryList.dClickListener = function(event)
 window.onload = function()
 {
 	
-	var directoryLits = document.querySelectorAll('.directory-list > .directory > .directory-item > .icon');
+	var directoryLits = document.querySelectorAll('.directory-list > .directory > .directory-item');
 
 	Array.from(directoryLits).forEach(function(btnIcon, index, array) {
 

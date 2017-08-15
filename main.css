@@ -9,6 +9,13 @@ height: 100%;
 position: relative;
 background: #333333;
 float: left;
+z-index: 3;
+}
+.disable-select {
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
 }
 .activity-detail-tray {
 background-color: #252526;
@@ -19,6 +26,7 @@ padding-left: 10px;
 padding-right: 10px;
 float: left;
 overflow-y: auto;
+z-index: 2;
 }
 .activity-detail-tray .title {
 padding-top: 8px;
@@ -152,7 +160,12 @@ font-weight: 700;
 margin-right: 10px;
 }
 
-.directory .icon
+.directory .directory-item .icon 
+{
+    pointer-events: none;
+}
+
+.directory .directory-item
 {
 	cursor: pointer;
 }
@@ -176,6 +189,8 @@ display :none;
 .directory-open > .directory-item > .icon
 {
 transform: rotate(180deg);
+    top: -4px;
+    position: relative;
 }
 .directory-open > .directory-item 
 {
@@ -256,4 +271,40 @@ padding: 5px;
 {
     background: #333333;
     width: 2px;
+}
+
+
+.hidden
+{
+    display: none;
+}
+
+.show 
+{
+    display: block !important;
+}
+
+.badge
+{
+    padding: 6px 3px 0px 3px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: black;
+    border-radius: 3px;
+    height: 18px;
+    width: 18px;
+    
+}
+
+.left-badge-pos
+{
+    position: absolute;
+    bottom: 0px;
+    right: -3px;
+    
 }
