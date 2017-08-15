@@ -36,41 +36,6 @@ window.classie.removeClass = function(element, className)
 }
 
 
-window.directoryList = {};
-window.directoryList.dClickListener = function(event) 
-{
-	var directory = event.target.parentElement;
-	console.log(directory);
-
-	if(window.classie.hasClass(directory, 'directory-open')) {
-		window.classie.removeClass(directory, 'directory-open')
-	} else {
-		window.classie.addClass(directory, 'directory-open');
-	}
-
-}
-
-
-
-window.onload = function()
-{
-	
-	var directoryLits = document.querySelectorAll('.directory-list > .directory > .directory-item');
-
-	Array.from(directoryLits).forEach(function(btnIcon, index, array) {
-
-		console.log(btnIcon);
-
-		btnIcon.addEventListener("click", window.directoryList.dClickListener);
-
-	});
-
-
-	window.makeHorizontalResizeable('.activity-detail-tray', 170);
-	
-}
-
-
 
 /* resizeabe div */
 
@@ -128,6 +93,198 @@ window.makeHorizontalResizeable = function(eName, minWidth)
 
 	});
 	
+	
+}
+
+window.directoryList = {};
+window.directoryList.dClickListener = function(event) 
+{
+	var directory = event.target.parentElement;
+	console.log(directory);
+
+	if(window.classie.hasClass(directory, 'directory-open')) {
+		window.classie.removeClass(directory, 'directory-open')
+	} else {
+		window.classie.addClass(directory, 'directory-open');
+	}
+
+}
+
+window.createFragNode = function (template)
+{
+	return document.createRange().createContextualFragment(template);
+}
+
+window.initDirectoryTree = function(query, data)
+{
+	var holder = document.querySelectorAll(query);
+
+	if(!holder[0]) {
+		return;
+	}
+
+	holder = holder[0];
+
+	var directoryNode = window.buildDirectoryNodes(data);
+
+
+	document.body.innerHTML = '';
+	document.body.appendChild(directoryNode)
+
+	//holder.appendChild(directoryNode);
+	//console.log(directoryNode);
+
+
+	// list.forEach(function(item, index, array){
+	// 	console.log(item);
+	// })
+}
+
+
+window.buildDirectoryNodes = function(data)
+{
+	// array means list of nodes
+	if(Array.isArray(data)) {
+
+		var _ulNode = document.createElement('ul');
+		window.classie.addClass(_ulNode, 'directory-list');
+		
+
+		data.forEach(function(file, index, array){
+
+			var _c = file.hasOwnProperty('class') ? file.class : '';
+			var _id = file.hasOwnProperty('id') ? file.id : '';
+
+	
+			//if each list item is direcotry
+			if(file.type == 'directory') {
+
+				var _liNode = document.createElement('li');
+				_liNode.className += ' directory' + _c;
+				_liNode.id = _id;
+
+				_liNode.appendChild(
+					window.createFragNode('<span class="directory-item">'
+								+'<i class="material-icons icon">change_history</i>'
+								+ file.title
+							+ '</span>'
+					)
+				);
+
+				if(file.hasOwnProperty('list')) {
+					var newULNode = window.buildDirectoryNodes(file.list);
+					_liNode.appendChild(newULNode);
+				}
+
+				_liNode.addEventListener("click", window.directoryList.dClickListener);console.log(_liNode)
+
+				_ulNode.appendChild(_liNode);
+
+
+
+			} 
+			//if each list iitem is file
+			else if(file.type == 'file') {
+
+				_liHTML = '<li class="file '+_c+'" id="'+_id+'">'
+							+'<span class="file-item">'
+							 	+'<i class="material-icons icon">label_outline</i>'
+							 	+ file.title
+							+ '</span>'
+							+ '</li>';
+
+				var _liNode = window.createFragNode(_liHTML);
+				_ulNode.appendChild(_liNode);
+			
+			}
+
+		});	
+
+		return _ulNode;
+	} 
+
+	return window.createFragNode('');
+}
+
+
+
+window.onload = function()
+{
+
+	window.makeHorizontalResizeable('.activity-detail-tray', 170);
+
+
+	var data = [
+		{
+			title : 'dist',
+			class : '',
+			type : 'directory',
+			id : 1,
+		},
+		{
+			title : 'node_modules',
+			type : 'directory',
+			id : 2,
+		},
+		{
+			title : 'src',
+			type : 'directory',
+			id : 3,
+			list : [
+				{
+					title : 'dist',
+					type : 'directory',
+					id : 4,
+				},
+				{
+					title : 'node_modules',
+					type : 'directory',
+					id : 5,
+				},
+				{
+					title : 'src',
+					type : 'directory',
+					id : 6,
+					list : [
+
+						{
+							title : 'dist',
+							type : 'directory',
+							id : 7,
+						},
+						{
+							title : 'node_modules',
+							type : 'directory',
+							id : 8,
+						},
+						{
+							title : 'src',
+							type : 'directory',
+							id : 9
+						},
+						{
+							title : 'sample.txt',
+							type : 'file',
+							id : 10
+						}
+
+					]
+				},
+				{
+					title : 'sample.txt',
+					type : 'file',
+					id : 11
+				}
+			]
+		},
+		{
+			title : 'sample.txt',
+			type : 'file',
+			id : 12
+		}
+	];
+
+	window.initDirectoryTree('#directory-list1', data);
 	
 }
 
