@@ -241,19 +241,19 @@ padding: 5px;
 
 .handle
 {
-	height: 50px;
-    width: 2px;
+	height: 100%;
+    width: 1px;
     position: absolute;
-    background: red;
     z-index: 99;
     right: 0px;
-    top: 50%;
+    top: 0;
     cursor: ew-resize;
     transition: width 0.3s;
-    -webkit-transition : width 0.3s;
+    -webkit-transition: width 0.3s;
 }
 
 .handle:hover
 {
-    width: 5px;
+    background: #333333;
+    width: 2px;
 }

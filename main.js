@@ -78,7 +78,8 @@ window.addTemplateFragment = function(template = '', appendTo = document.html)
 {
 
 	var frag = document.createRange().createContextualFragment(template);
-	appendTo.appendChild(frag);
+
+	appendTo.parentNode.insertBefore(frag, appendTo.nextSibling);
 }
 
 window.makeHorizontalResizeable = function(eName, minWidth)
@@ -91,10 +92,12 @@ window.makeHorizontalResizeable = function(eName, minWidth)
 
 	window.addTemplateFragment('<span class="drag-handler"><span class="handle"></span></span>', resizeabeElement);
 		
+
 	resizeabeElement.isResizing = false;
 	resizeabeElement.lastDownX = 0;
 
-	var handle = resizeabeElement.querySelectorAll('.drag-handler > .handle')[0];
+	var handle = resizeabeElement.nextSibling.firstChild;
+	console.log(handle);
 
 	handle.addEventListener('mousedown', function(event){
 	    resizeabeElement.isResizing = true;
