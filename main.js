@@ -115,7 +115,7 @@ window.createFragNode = function (template)
 	return document.createRange().createContextualFragment(template);
 }
 
-window.initDirectoryTree = function(query, data)
+window.initDirectoryTree = function(query, data, config = {})
 {
 	var holder = document.querySelectorAll(query);
 
@@ -127,17 +127,10 @@ window.initDirectoryTree = function(query, data)
 
 	var directoryNode = window.buildDirectoryNodes(data);
 
+	directoryNode.className += config.hasOwnProperty('class') ? ' '+ config.class : '';
 
-	document.body.innerHTML = '';
-	document.body.appendChild(directoryNode)
+	holder.parentNode.replaceChild(directoryNode, holder);
 
-	//holder.appendChild(directoryNode);
-	//console.log(directoryNode);
-
-
-	// list.forEach(function(item, index, array){
-	// 	console.log(item);
-	// })
 }
 
 
@@ -163,20 +156,19 @@ window.buildDirectoryNodes = function(data)
 				_liNode.className += ' directory' + _c;
 				_liNode.id = _id;
 
-				_liNode.appendChild(
-					window.createFragNode('<span class="directory-item">'
-								+'<i class="material-icons icon">change_history</i>'
-								+ file.title
-							+ '</span>'
-					)
-				);
+				var _span = document.createElement('span');
+				_span.className += ' directory-item';
+				_span.innerHTML = '<i class="material-icons icon">change_history</i>'+ file.title;
+
+				_span.addEventListener("click", window.directoryList.dClickListener);console.log(_liNode)
+
+				_liNode.appendChild(_span);
 
 				if(file.hasOwnProperty('list')) {
 					var newULNode = window.buildDirectoryNodes(file.list);
 					_liNode.appendChild(newULNode);
 				}
 
-				_liNode.addEventListener("click", window.directoryList.dClickListener);console.log(_liNode)
 
 				_ulNode.appendChild(_liNode);
 
@@ -284,7 +276,9 @@ window.onload = function()
 		}
 	];
 
-	window.initDirectoryTree('#directory-list1', data);
+	window.initDirectoryTree('#directory-list1', data, {
+		class : 'padding-zero padding-left-7px'
+	});
 	
 }
 
